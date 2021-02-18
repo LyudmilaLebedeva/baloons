@@ -5,9 +5,9 @@ const playButton = document.querySelector('.play');
 const startHandler = (e) => {
     lb.leaderBoardElement.style = "display: none;"
     score = 0;
-    document.querySelector('.score').textContent = 'Счет: 0'
+    document.querySelector('.score').textContent = 'Score: 0'
     
-    e.target.textContent = 'Пауза';
+    e.target.textContent = 'Pause';
     e.target.removeEventListener('click', startHandler);
     e.target.addEventListener('click', pauseClickHandler);
     createBaloons();
@@ -17,14 +17,14 @@ playButton.addEventListener('click', startHandler);
 
 function playClickHandler(e) {
     document.dispatchEvent(new CustomEvent('play'));
-    e.target.textContent = 'Пауза';
+    e.target.textContent = 'Pause';
     e.target.removeEventListener('click', playClickHandler);
     e.target.addEventListener('click', pauseClickHandler);
 }
 
 function pauseClickHandler(e) {
     document.dispatchEvent(new CustomEvent('pause'));
-    e.target.textContent = 'Продолжить';
+    e.target.textContent = 'Play';
     e.target.removeEventListener('click', pauseClickHandler);
     e.target.addEventListener('click', playClickHandler);
 }
@@ -88,7 +88,7 @@ function createBaloon(coordX) {
     }
 
     const burstBaloonHandler = () => {
-        scoreElement.textContent = `Счет: ${++score}`;
+        scoreElement.textContent = `Score: ${++score}`;
         baloonRemove();
     }
 
@@ -120,7 +120,7 @@ form.addEventListener('submit', (e) => {
         e.target.style = 'display: none;';
         leaderboard.sort((a, b) => b[1] - a[1]);
         form.style = 'display: none;';
-        playButton.textContent = 'Начать новую игру';
+        playButton.textContent = 'Restart';
         playButton.style = 'display: block;';
         playButton.addEventListener('click', startHandler);
         lb.leaderBoardElement.style = "display: block;";

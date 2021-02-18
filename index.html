@@ -11,18 +11,18 @@
 
 <body>
     <div class="root">
+        <nav class="menu">
+            <p class="score">Score: 0</p>
+            <button class="play">Play</button>
+        </nav>
         <div class="field">
-            <nav class="menu">
-                <p class="score">Счёт: 0</p>
-                <button class="play">Начать игру</button>
-            </nav>
-
+            <div class="leaderboard" style="display: none;"></div>
             <form class="form" style="display: none;">
-                <input type="text" placeholder="Ваше имя" class="input">
-                <input type="submit" placeholder="Ваше имя" class="input" value="OK" style="width: 30px;">
+                <input type="text" placeholder="Name" class="input">
+                <input type="submit" class="submit" value="OK">
             </form>
         </div>
-        <div class="leaderboard" style="display: none;"></div>
+        
     </div>
     <script src="./js/LiderBoard.js"></script>
     <script src="index.js"></script>
