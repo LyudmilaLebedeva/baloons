@@ -52,13 +52,13 @@ function createBaloon(coordX) {
 
     function move() {
         if (baloon) {
-            coord.Y += 1;
+            coord.Y += .5;
             baloon.style = `left: ${coord.X}vw; bottom: ${coord.Y}vh`;
             if (coord.Y > 85) { 
                 document.dispatchEvent(new CustomEvent('gameOver'));
                 gameOver();
               }
-            else timeout = setTimeout(move, 100);
+            else timeout = setTimeout(move, 20);
         }
     }
 
@@ -83,9 +83,7 @@ function createBaloon(coordX) {
         baloon.remove();
     }
 
-    const gameOverBaloonHandler = () => {
-        baloonRemove();
-    }
+    const gameOverBaloonHandler = baloonRemove;
 
     const burstBaloonHandler = () => {
         scoreElement.textContent = `Score: ${++score}`;
