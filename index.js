@@ -12,6 +12,8 @@ const baloonProps = {
     interval: 40,
     maxY: 100,
     radius: 5,
+    height: 10,
+    width: 20,
     sound:  bumpSound,
 }
 

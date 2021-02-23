@@ -2,10 +2,11 @@ class Baloon {
     constructor(props, field) {
         this.step = props.step;
         this.interval = props.interval;
-        this.radius = props.radius;
+        this.width = props.width;
+        this.height = props.height;
         this.maxY = props.maxY;
         this.sound = props.sound;
-        this.y = -this.radius;
+        this.y = -this.height;
         this.x = this.getRandomX();
         this.field = field;
 
@@ -74,6 +75,6 @@ class Baloon {
     }
 
     getRandomX() {
-        return Math.random() * (100 - 2*this.radius);
+        return Math.random() * (100 - this.width);
     }
 }
