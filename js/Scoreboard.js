@@ -4,7 +4,7 @@ class Scoreboard {
         this.element = element;
         this.scoreUp = () => {
             ++this.score;
-            if (!(this.score % 10)) {
+            if (!(this.score % 20)) {
                 ++this.level;
                 this.levelUpFunction();
             }

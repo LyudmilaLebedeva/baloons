@@ -58,6 +58,7 @@
     -o-transition-duration: 250ms;
     -moz-transition-duration: 250ms;
     -o-transition-duration: 250ms;
+    -webkit-transition-duration: 250ms;
     transform: scale(1.5);
     -o-transform: scale(1.5);
     -ms-transform: scale(1.5);

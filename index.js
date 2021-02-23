@@ -8,7 +8,7 @@ const bumpSound =  new Audio('./audio/bump.mp3');
 const babahSound = new Audio('./audio/babah.mp3');
 
 const baloonProps = {
-    step: 1.5,
+    step: 1.4,
     interval: 40,
     maxY: 100,
     radius: 5,
@@ -53,6 +53,6 @@ function resetGameHandler(e) {
 
 function levelUp() {
     const lv = scoreboard.level + 1;
-    game.interval /= ( 4 * (1 - 1.1**(-lv)) );
+    game.interval /= ( 4 * (1 - 1.1**(-0.5 * lv)) );
     console.log(game.interval);
 }
