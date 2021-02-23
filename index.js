@@ -11,7 +11,7 @@ const baloonProps = {
     step: .5,
     interval: 20,
     maxY: 100,
-    radius: 5,
+    radius: 7.5,
     sound:  bumpSound,
 }
 
@@ -52,5 +52,5 @@ function resetGameHandler(e) {
 }
 
 function levelUp() {
-    game.interval /= 4 * (1 - 1.2**(-scoreboard.level));
+    game.interval /= 4 * (1 - 1.1**(-.5 * scoreboard.level));
 }
