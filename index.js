@@ -1,127 +1,56 @@
-let score = 0;
+const leaderboard = new Leaderboard(document.querySelector('.leaderboard'));
+const scoreboard = new Scoreboard(document.querySelector('.scoreboard'), levelUp);
+const controlButton = new ControlButton(document.querySelector('.control-button'));
+const form = new NameForm(document.querySelector('.form'), withSubmit);
+const game = new Game(gameFunction, gameOverFunction, resetFunction);
 
-const playButton = document.querySelector('.play');
+const bumpSound =  new Audio('./audio/bump.mp3');
+const babahSound = new Audio('./audio/babah.mp3');
 
-const startHandler = (e) => {
-    lb.leaderBoardElement.style = "display: none;"
-    score = 0;
-    document.querySelector('.score').textContent = 'Score: 0'
-    
-    e.target.textContent = 'Pause';
-    e.target.removeEventListener('click', startHandler);
-    e.target.addEventListener('click', pauseClickHandler);
-    createBaloons();
+const baloonProps = {
+    step: .5,
+    interval: 20,
+    maxY: 100,
+    radius: 5,
+    sound:  bumpSound,
 }
 
-playButton.addEventListener('click', startHandler);
-
-function playClickHandler(e) {
-    document.dispatchEvent(new CustomEvent('play'));
-    e.target.textContent = 'Pause';
-    e.target.removeEventListener('click', playClickHandler);
-    e.target.addEventListener('click', pauseClickHandler);
+function gameFunction() {
+    new Baloon(baloonProps, document.querySelector('.field'));
 }
 
-function pauseClickHandler(e) {
-    document.dispatchEvent(new CustomEvent('pause'));
-    e.target.textContent = 'Play';
-    e.target.removeEventListener('click', pauseClickHandler);
-    e.target.addEventListener('click', playClickHandler);
+function gameOverFunction() {
+    babahSound.currentTime = 1;
+    babahSound.play();
+    if (!scoreboard.score) {
+        game.resetGame();
+    } else {
+        form.open();
+        controlButton.element.style = 'display: none';
+    }
 }
 
-let createTimeout;
-document.addEventListener('gameOver', () => { clearTimeout(createTimeout) });
-document.addEventListener('pause', () => { clearTimeout(createTimeout) });
-document.addEventListener('play', createBaloons);
-
-function createBaloons() {
-    createBaloon(Math.random() * 80);
-    createTimeout = setTimeout(createBaloons, 1000);   
+function resetFunction() {
+    form.close();
+    leaderboard.hide();
+    scoreboard.reset();
+    controlButton.reset();
 }
 
-function createBaloon(coordX) {
-    const coord = { Y: 0, X: coordX, };
-    const scoreElement = document.querySelector('.score');
-    const field = document.querySelector('.field');
-    let baloon = field.appendChild(document.createElement('div'));
-
-    baloon.style = `left: ${coord.X}vw; bottom: ${coord.Y}vh;`;
-    baloon.classList.add('baloon');
-
-    let timeout = setTimeout(move, 40);
-
-    function move() {
-        if (baloon) {
-            coord.Y += .5;
-            baloon.style = `left: ${coord.X}vw; bottom: ${coord.Y}vh`;
-            if (coord.Y > 85) { 
-                document.dispatchEvent(new CustomEvent('gameOver'));
-                gameOver();
-              }
-            else timeout = setTimeout(move, 20);
-        }
-    }
-
-    const playBaloonHandler = () => {
-        baloon.removeEventListener('play', playBaloonHandler);
-        baloon.addEventListener('click', burstBaloonHandler);
-        move();
-    }
-
-    const pauseBaloonHandler = () => {
-        baloon.removeEventListener('click', burstBaloonHandler);
-        document.addEventListener('play', playBaloonHandler);
-        clearTimeout(timeout);
-    }
-
-    const baloonRemove = () => {
-        clearTimeout(timeout);
-        document.removeEventListener('pause', pauseBaloonHandler);
-        document.removeEventListener('gameOver', gameOverBaloonHandler);
-        baloon.removeEventListener('click', burstBaloonHandler);
-        document.removeEventListener('play', playBaloonHandler);
-        baloon.remove();
-    }
-
-    const gameOverBaloonHandler = baloonRemove;
-
-    const burstBaloonHandler = () => {
-        scoreElement.textContent = `Score: ${++score}`;
-        baloonRemove();
-    }
-
-    baloon.addEventListener('click', burstBaloonHandler);
-    document.addEventListener('pause', pauseBaloonHandler);
-    document.addEventListener('gameOver', gameOverBaloonHandler);
+function withSubmit(name) {
+    controlButton.element.textContent = 'OK';
+    controlButton.element.style = 'display: block;';
+    leaderboard.addLeaderboardData(name, scoreboard.score);
+    leaderboard.render();
+    leaderboard.show();
+    controlButton.element.addEventListener('click', resetGameHandler);
 }
 
-const lb = new LeaderBoard(document.querySelector('.leaderboard'));
-
-const form = document.querySelector('.form');
-
-function gameOver() {
-    playButton.style = 'display: none;'
-    playButton.removeEventListener('click', pauseClickHandler);
-
-    form.style = 'display: block';    
+function resetGameHandler(e) {
+    e.target.removeEventListener('click', resetGameHandler);
+    game.resetGame();
 }
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (score) {
-        const name = form.querySelector('input').value;
-        const leaderboard = JSON.parse((window.localStorage.getItem('leaderboard') || '[]'));
-        leaderboard.push([(name || 'noname'), score]);
-        score = 0;
-        window.localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
-        form.querySelector('input').value = '';
-        e.target.style = 'display: none;';
-        leaderboard.sort((a, b) => b[1] - a[1]);
-        form.style = 'display: none;';
-        playButton.textContent = 'Restart';
-        playButton.style = 'display: block;';
-        playButton.addEventListener('click', startHandler);
-        lb.leaderBoardElement.style = "display: block;";
-        lb.render(leaderboard);
-    }
-});
+function levelUp() {
+    game.interval /= 1.2;
+}

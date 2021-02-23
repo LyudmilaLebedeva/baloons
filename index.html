@@ -5,26 +5,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Baloons</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="root">
         <nav class="menu">
-            <p class="score">Score: 0</p>
-            <button class="play">Play</button>
+            <p class="scoreboard">Score: 0</p>
+            <button class="control-button">Start</button>
         </nav>
         <div class="field">
             <div class="leaderboard" style="display: none;"></div>
             <form class="form" style="display: none;">
-                <input type="text" placeholder="Name" class="input">
+                <input type="text" placeholder="Enter your name" class="input">
                 <input type="submit" class="submit" value="OK">
             </form>
         </div>
         
     </div>
-    <script src="./js/LiderBoard.js"></script>
+    <audio id="sound1" src="./audio/bump.mp3" preload="auto"></audio>
+    <audio id="sound2" src="./audio/babah.mp3" preload="auto"></audio>
+    <script src="./js/Baloon.js"></script>
+    <script src="./js/NameForm.js"></script>
+    <script src="./js/Scoreboard.js"></script>
+    <script src="./js/Leaderboard.js"></script>
+    <script src="./js/ControlButton.js"></script>
+    <script src="./js/Game.js"></script>
     <script src="index.js"></script>
 </body>
 
