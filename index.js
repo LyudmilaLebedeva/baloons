@@ -1,5 +1,5 @@
 const leaderboard = new Leaderboard(document.querySelector('.leaderboard'));
-const scoreboard = new Scoreboard(document.querySelector('.scoreboard'), levelUp);
+const scoreboard = new Scoreboard(document.querySelector('.scoreboard'), onlevelUp);
 const controlButton = new ControlButton(document.querySelector('.control-button'));
 const form = new NameForm(document.querySelector('.form'), withSubmit);
 const game = new Game(gameFunction, gameOverFunction, resetFunction);
@@ -51,8 +51,7 @@ function resetGameHandler(e) {
     game.resetGame();
 }
 
-function levelUp() {
-    const lv = scoreboard.level + 1;
-    game.interval /= ( 4 * (1 - 1.1**((-0.1 * lv) - 1)) );
+function onlevelUp() {
+    game.interval /= (1 + 0.1*scoreboard.level);
     console.log(game.interval);
 }
