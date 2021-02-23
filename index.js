@@ -52,5 +52,7 @@ function resetGameHandler(e) {
 }
 
 function levelUp() {
-    game.interval /= (4 * (1 - 4**(-(++scoreboard.level))));
+    const lv = scoreboard.level + 1;
+    game.interval /= ( 4 * (1 - 4**(-lv)) );
+    console.log(game.interval);
 }
