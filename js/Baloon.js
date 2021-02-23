@@ -14,7 +14,7 @@ class Baloon {
             document.removeEventListener('pause', this.pauseBaloonHandler);
             document.removeEventListener('gameOver', this.baloonRemove);
             document.removeEventListener('play', this.playBaloonHandler);
-            this.element.removeEventListener('click', this.burstBaloonHandler);
+            this.element.removeEventListener('mousedown', this.burstBaloonHandler);
             this.element.classList.add('bump');
             setTimeout(() => {
                 this.element.remove();
@@ -30,12 +30,12 @@ class Baloon {
 
         this.playBaloonHandler = () => {
             this.element.removeEventListener('play', this.playBaloonHandler);
-            this.element.addEventListener('click', this.burstBaloonHandler);
+            this.element.addEventListener('mousedown', this.burstBaloonHandler);
             this.move();
         }
 
         this.pauseBaloonHandler = () => {
-            this.element.removeEventListener('click', this.burstBaloonHandler);
+            this.element.removeEventListener('mousedown', this.burstBaloonHandler);
             document.addEventListener('play', this.playBaloonHandler);
             clearTimeout(this.timeout);
         }
@@ -58,7 +58,7 @@ class Baloon {
         this.element = document.createElement('div');
         this.element.classList.add(`baloon_${Math.ceil(Math.random()*4)}`);
         this.element.classList.add('baloon');
-        this.element.addEventListener('click', this.burstBaloonHandler);
+        this.element.addEventListener('mousedown', this.burstBaloonHandler);
         document.addEventListener('pause', this.pauseBaloonHandler);
         document.addEventListener('gameOver', this.baloonRemove);
         this.setPosition();
